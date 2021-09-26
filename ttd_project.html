@@ -1,0 +1,39 @@
+<html>
+<body>
+<input type='text' id='city'>
+<input type='button' value='get weather' onClick="submitcity()">
+<h3>Coordinates:<span id="cord"></span></h3>
+<h3>Temp:<span id="temp"></span></h3>
+<h3>Feels like:<span id="feel"></span></h3>
+<h3>Pressure:<span id="pressure"></span></h3>
+<h3>humidity:<span id="humidity"></span></h3>
+<script>
+function submitcity()
+{
+    let city = document.getElementById('city').value
+    getWeather(city)
+}
+function getWeather(city)
+{
+    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=f025b9d52ad4715ed57e177c2e06dd1c`)
+    .then(res=>res.json())
+    .then(data=>{
+        let temp = data.main.temp;
+        let tempMax = data.main.temp_max;
+        let tempMin = data.main.temp_min;
+        let pressure = data.main.pressure;
+        let humid = data.main.humidity;
+        let feel = data.main.feels_like;
+        let coord = data.coord.lat+', '+data.coord.lon;
+        
+        document.getElementById('cord').innerText=coord;
+        document.getElementById('pressure').innerText=pressure;
+        document.getElementById('humidity').innerText=humid;
+        document.getElementById('feel').innerText=feel;
+        document.getElementById('temp').innerText=temp+ (${tempMin}/${tempMax});
+    
+    })
+}
+</script>
+</body>
+</html>
